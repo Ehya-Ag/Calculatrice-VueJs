@@ -19,5 +19,4 @@ export default {
 </script>
 
 <style>
-/* Ajoutez ici les styles globaux si nécessaire */
 </style>
