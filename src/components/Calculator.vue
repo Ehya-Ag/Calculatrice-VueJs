@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import Result from './Result.vue';
 
 export default {
@@ -44,39 +45,47 @@ export default {
   components: {
     Result
   },
-  data() {
-    return {
-      selectedOperation: 'addition',
-      value1: 0,
-      value2: 0,
-      result: null,
-      errorMessage: ''
-    };
-  },
-  methods: {
-    calculate() {
-      switch (this.selectedOperation) {
+  setup() {
+    const selectedOperation = ref('addition');
+    const value1 = ref(0);
+    const value2 = ref(0);
+    const result = ref(null);
+    const errorMessage = ref('');
+
+    const calculate = () => {
+      errorMessage.value = '';
+
+      switch (selectedOperation.value) {
         case 'addition':
-          this.result = parseFloat(this.value1) + parseFloat(this.value2);
+          result.value = parseFloat(value1.value) + parseFloat(value2.value);
           break;
         case 'multiplication':
-          this.result = parseFloat(this.value1) * parseFloat(this.value2);
+          result.value = parseFloat(value1.value) * parseFloat(value2.value);
           break;
         case 'division':
-          if (parseFloat(this.value2) === 0) {
-            this.errorMessage = "Division par zéro est impossible.";
-            this.result = null;
+          if (parseFloat(value2.value) === 0) {
+            errorMessage.value = "Division par zéro est impossible.";
+            result.value = null;
           } else {
-            this.result = parseFloat(this.value1) / parseFloat(this.value2);
+            result.value = parseFloat(value1.value) / parseFloat(value2.value);
           }
           break;
         case 'subtraction':
-          this.result = parseFloat(this.value1) - parseFloat(this.value2);
+          result.value = parseFloat(value1.value) - parseFloat(value2.value);
           break;
         default:
-          this.result = null;
+          result.value = null;
       }
-    }
+    };
+
+    return {
+      selectedOperation,
+      value1,
+      value2,
+      result,
+      errorMessage,
+      calculate
+    };
   }
 }
 </script>

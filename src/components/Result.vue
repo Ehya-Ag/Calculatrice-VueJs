@@ -26,5 +26,4 @@ export default {
 </script>
 
 <style scoped>
-/* Ajoutez ici les styles spécifiques au composant Result.vue si nécessaire */
 </style>
