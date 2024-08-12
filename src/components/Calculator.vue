@@ -22,12 +22,12 @@
     
     <div class="mb-3">
       <label class="form-label">Première valeur :</label>
-      <input type="number" class="form-control" v-model="value1">
+      <input type="number" class="form-control" v-model.number="value1">
     </div>
     
     <div class="mb-3">
       <label class="form-label">Deuxième valeur :</label>
-      <input type="number" class="form-control" v-model="value2">
+      <input type="number" class="form-control" v-model.number="value2">
     </div>
     
     <button class="btn btn-primary" @click="calculate">Calculer</button>
@@ -36,59 +36,43 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue';
 import Result from './Result.vue';
 
-export default {
-  name: 'Calculator',
-  components: {
-    Result
-  },
-  setup() {
-    const selectedOperation = ref('addition');
-    const value1 = ref(0);
-    const value2 = ref(0);
-    const result = ref(null);
-    const errorMessage = ref('');
+const selectedOperation = ref('addition');
+const value1 = ref(0);
+const value2 = ref(0);
+const result = ref(null);
+const errorMessage = ref('');
 
-    const calculate = () => {
-      errorMessage.value = '';
+const calculate = () => {
+  errorMessage.value = '';
 
-      switch (selectedOperation.value) {
-        case 'addition':
-          result.value = parseFloat(value1.value) + parseFloat(value2.value);
-          break;
-        case 'multiplication':
-          result.value = parseFloat(value1.value) * parseFloat(value2.value);
-          break;
-        case 'division':
-          if (parseFloat(value2.value) === 0) {
-            errorMessage.value = "Division par zéro est impossible.";
-            result.value = null;
-          } else {
-            result.value = parseFloat(value1.value) / parseFloat(value2.value);
-          }
-          break;
-        case 'subtraction':
-          result.value = parseFloat(value1.value) - parseFloat(value2.value);
-          break;
-        default:
-          result.value = null;
+  switch (selectedOperation.value) {
+    case 'addition':
+      result.value = parseFloat(value1.value) + parseFloat(value2.value);
+      break;
+    case 'multiplication':
+      result.value = parseFloat(value1.value) * parseFloat(value2.value);
+      break;
+    case 'division':
+      if (parseFloat(value2.value) === 0) {
+        errorMessage.value = "Division par zéro est impossible.";
+        result.value = null;
+      } else {
+        result.value = parseFloat(value1.value) / parseFloat(value2.value);
       }
-    };
-
-    return {
-      selectedOperation,
-      value1,
-      value2,
-      result,
-      errorMessage,
-      calculate
-    };
+      break;
+    case 'subtraction':
+      result.value = parseFloat(value1.value) - parseFloat(value2.value);
+      break;
+    default:
+      result.value = null;
   }
-}
+};
 </script>
 
 <style scoped>
 </style>
+
